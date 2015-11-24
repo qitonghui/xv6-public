@@ -22,6 +22,7 @@ start:
   # with 2 MB would run software that assumed 1 MB.  Undo that.
   # 参考： https://en.wikipedia.org/wiki/A20_line
   #		http://blog.csdn.net/lightseed/article/details/4305865
+  # 	https://en.wikipedia.org/wiki/Input/output_base_address
 seta20.1:
   inb     $0x64,%al               # Wait for not busy
   testb   $0x2,%al
