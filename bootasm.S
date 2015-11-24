@@ -20,12 +20,14 @@ start:
 
   # Physical address line A20 is tied to zero so that the first PCs 
   # with 2 MB would run software that assumed 1 MB.  Undo that.
+  # 参考： https://en.wikipedia.org/wiki/A20_line
+  #		http://blog.csdn.net/lightseed/article/details/4305865
 seta20.1:
   inb     $0x64,%al               # Wait for not busy
   testb   $0x2,%al
   jnz     seta20.1
 
-  movb    $0xd1,%al               # 0xd1 -> port 0x64
+  movb    $0xd1,%al               # 0xd1 -> port 0x64,  0xd1 == 11010001
   outb    %al,$0x64
 
 seta20.2:
@@ -33,7 +35,7 @@ seta20.2:
   testb   $0x2,%al
   jnz     seta20.2
 
-  movb    $0xdf,%al               # 0xdf -> port 0x60
+  movb    $0xdf,%al               # 0xdf -> port 0x60, 0xdf == 11011111
   outb    %al,$0x60
 
   # Switch from real to protected mode.  Use a bootstrap GDT that makes
